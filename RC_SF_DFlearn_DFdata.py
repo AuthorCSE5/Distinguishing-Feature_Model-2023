@@ -52,11 +52,7 @@ no_of_pairs = m_vals
 print(m_vals)
 print(no_of_pairs)
 
-#for i in range(0,6,1):
-#    l3 = (2**i)*l2
-#    l_vals.append(l3)
 
-#no_of_comparisons = l_vals
 
 accuracy_no_of_pairs = np.zeros(((10,r-1)))
 ktc_vals = np.zeros(((10,r-1)))
@@ -65,17 +61,7 @@ ktc2_vals = np.zeros(((10,r-1)))
 
 dim2 = 50
 c = 0.00009 #l2 regularization parameter
-#h_val = h_1
-#num_clusters = 1
 
-'''accuracy_RC_total = []
-ktc_RC_total = []
-
-accuracy_DFlearn_total = []
-ktc_DFlearn_total = []
-
-accuracy_SF_total = []
-ktc_SF_total = []'''
 
 accuracy_RC_total = np.zeros(((10,r-1)))
 accuracy_DFlearn_total = np.zeros(((10,r-1)))
