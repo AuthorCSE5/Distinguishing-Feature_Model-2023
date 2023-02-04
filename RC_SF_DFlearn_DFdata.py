@@ -20,7 +20,7 @@ import majority_vote3
 import blade_chest_Synthetic_DFData
 import BC_Accuracy
 import GNNRank_Synthetic
-#import Tournament_generation_DFmodel
+
 
 
 #idx = sys.argv[1]
