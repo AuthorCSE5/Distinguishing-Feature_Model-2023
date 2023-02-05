@@ -15,7 +15,7 @@ def create_data(embedding_obj, num_items, l, m, seed):
     #validation_data2 = np.copy(embedding_obj.validation_data2)
     prob_test = np.copy(embedding_obj.prob_test)
 
-    np.savetxt("BC_prob_test_SFData_"+str(m)+"_"+str(seed)+".txt", prob_test)
+    np.savetxt("BC_prob_test_SFData_"+str(m)+"_"+str(seed)+".txt", prob_test)   ##Change the dataset name for other 2 datsets (SF -> DF/BTL)
 
     total_pairs = int(comb(num_items,2))
     
@@ -43,19 +43,19 @@ def create_data(embedding_obj, num_items, l, m, seed):
         ind2 = np.argmax(ts2[i,:])
 
         data[i,0] = str(ind1)+':'+str(ind2)
-        #data[i,1] = ind2
+        
 
 
                
         if data_set1[i,num_items] == 1:       
         
             data[i,1] = str(1)+':'+str(0)
-            #data[i,3] = 0
+            
 
         elif data_set1[i,num_items] == -1:       
         
             data[i,1] = str(0)+':'+str(1)
-            #data[i,3] = 1
+            
 
     print("Creating Validation Data...")
 
@@ -87,20 +87,18 @@ def create_data(embedding_obj, num_items, l, m, seed):
         ind2 = np.argmax(ts2[i,:])
 
         data_test[i,0] = str(ind1)+':'+str(ind2)
-        #data_test[i,1] = str(ind2)
+        
 
 
                
         if data_set1[i,num_items] == 1:       
         
-            #data_test[i,2] = str(1)
-            #data_test[i,3] = str(0)
+            
             data_test[i,1] = str(1)+':'+str(0)
 
         elif data_set1[i,num_items] == -1:       
         
-            #data_test[i,2] = str(0)
-            #data_test[i,3] = str(1)
+            
             data_test[i,1] = str(0)+':'+str(1)
 
     
@@ -118,8 +116,7 @@ def create_data(embedding_obj, num_items, l, m, seed):
     for i in range(test_size):
         train_val_test_mask[i+train_size+val_size] = 'FOR_TESTING'
 
-    #player_names = []
-    #player_names.append('numPlayers:'+str(num_items))
+    
 
     player_names = np.zeros((num_items+2, 2), dtype='<U32')
     player_names[0][0] = "numPlayers: "
@@ -131,9 +128,7 @@ def create_data(embedding_obj, num_items, l, m, seed):
         player_names[i+1][1] = str(i)
         
         
-        #player_names.append('player'+str(i)+': '+str(i))
-
-    #player_names.append('numGames:'+str(train_size + val_size + test_size))
+       
 
     num_games = train_size + val_size + test_size
     print(num_games)
@@ -142,65 +137,20 @@ def create_data(embedding_obj, num_items, l, m, seed):
     player_names[i+2][1] = str(num_games)
     
 
-    '''for i in range(num_items+2):
-        player_names[i][2] = 'nan'
-        player_names[i][3] = 'nan'
-        player_names[i][4] = 'nan'
-        player_names[i][5] = 'nan'
-        player_names[i][6] = 'nan' '''
-
-
-    #np.savetxt("DFdata0"+str(m)+str(seed)+".txt", player_names, fmt="%s")
-    #player_names = np.array(player_names)
-
-    '''separate = np.zeros((train_size + val_size + test_size , 1), dtype='<U1')
-
-    for i in range(train_size + val_size + test_size):
-        separate[i] = ':'
-    '''
 
     complete_data2 = np.append(train_val_test_mask, complete_data, axis = 1)
 
-    '''complete_data2_temp1 = complete_data2[:,0:2]
+    
 
-    complete_data2_temp2 = complete_data2[:,2:4]
-
-    complete_data2_tempfinal = complete_data2[:,4:5]
-
-    complete_data2_temp = np.copy(complete_data2_temp1)
-    print("complete_data2_temp size = ", complete_data2_temp.shape[0], "separate = ", separate.shape[0])
-    complete_data2_temp = np.append(complete_data2_temp, separate, axis = 1)
-
-    complete_data2_temp3 = np.copy(complete_data2_temp2)
-
-    complete_data2_temp = np.append(complete_data2_temp, complete_data2_temp3, axis = 1)
-    print("complete_data2_temp size = ", complete_data2_temp.shape[0], "separate = ", separate.shape[0])
-    complete_data2_temp = np.append(complete_data2_temp, separate, axis = 1)
-    complete_data2_temp = np.append(complete_data2_temp, complete_data2_tempfinal, axis = 1)'''
-
-    #complete_data2_temp = np.append(player_names, complete_data2_temp, axis = 0)
-
-    #complete_data2_temp = np.delete(complete_data2_temp, 'nan')
-
-    #print(complete_data2_temp)
     print(complete_data2)
     
         
     
 
-    '''#open text file
-    text_file = open("DFdata0"+str(m)+str(seed)+".txt", "a")
- 
-    #write string to file
-    text_file.write(complete_data2_temp)
-     
-    #close file
-    text_file.close()'''
-
-    with open('BC_SFdata_train'+str(m)+'_'+str(seed)+'.txt','w') as f:
+    with open('BC_SFdata_train'+str(m)+'_'+str(seed)+'.txt','w') as f:              ##Change the dataset name for other 2 datsets (SF -> DF/BTL)
         np.savetxt(f, player_names, fmt='%s', delimiter=" ")
         np.savetxt(f, complete_data2, fmt='%s', delimiter=" ")
-        #np.savetxt(f, c.reshape(1, -1), fmt='%1.3f', delimiter=",")
+        
     
     
     return complete_data
