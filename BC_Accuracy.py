@@ -226,10 +226,10 @@ def BC():
 
     print(data)
 
-    num_items = 4381
+    num_items = 4381  ##change the number of items a/c to the dataset
     
 
-    test_indices = np.loadtxt('test_indices_BC_WoL.txt', dtype = int) ##Change the name of the dataset in place of WoL
+    test_indices = np.loadtxt('test_indices_BC_WoL.txt', dtype = int) ##Change the name of the dataset in place of WoL (this text file is saved from the blade chest software to know the dataset indices used for test data)
     
     data = data[num_items+1:,0:]
     test = (data[:,0] == 'FOR_TESTING')
