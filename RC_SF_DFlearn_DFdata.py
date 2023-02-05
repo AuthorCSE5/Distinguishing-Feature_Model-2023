@@ -149,9 +149,9 @@ for t in range(10):
         accuracy_MV, ktc_MV, upsets_MV, rmse_MV = majority_vote3.MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim_mv, t)
         data_BC = blade_chest_Synthetic_DFData.create_data(embedding_obj, num_items, l, m, t)
 
-        #score_DFdata = np.copy(embedding_obj.score)
+        #score_DFdata = np.copy(embedding_obj.score)  #Uncomment and run this when the blade-chest synthetic data is already generated and Blade-Chest model gives the model parameters via MLE
         
-        #pred_accuracy, rmse, ktc = BC_Accuracy.BC_Synthetic(m, t, score_DFdata)
+        #pred_accuracy, rmse, ktc = BC_Accuracy.BC_Synthetic(m, t, score_DFdata) #Uncomment and run this when the blade-chest synthetic data is already generated and Blade-Chest model gives the model parameters via MLE
 
         GNNRank_Synthetic.DFdata(embedding_obj, num_items, l, m, t) #GNN format data generation 
 
@@ -161,7 +161,7 @@ for t in range(10):
         accuracy_DFlearn_total[count_iter][count_m] = accuracy_DFlearn
         accuracy_LRPR_total[count_iter][count_m] = accuracy_LRPR
         accuracy_MV_total[count_iter][count_m] = accuracy_MV
-        #accuracy_BC_total[count_iter][count_m] = pred_accuracy
+        #accuracy_BC_total[count_iter][count_m] = pred_accuracy #Uncomment and run this when the blade-chest synthetic data is already generated and Blade-Chest model gives the model parameters via MLE
 
         cycles_total[count_iter][count_m] = cycles
         cycle_fraction_total[count_iter][count_m] = cycle_fraction
@@ -177,7 +177,7 @@ for t in range(10):
         rmse_MV_total[count_iter][count_m] = rmse_MV
         rmse_SF_total[count_iter][count_m] = rmse_SF
         rmse_LRPR_total[count_iter][count_m] = rmse_LRPR
-        #rmse_BC_total[count_iter][count_m] = rmse
+        #rmse_BC_total[count_iter][count_m] = rmse #Uncomment and run this when the blade-chest synthetic data is already generated and Blade-Chest model gives the model parameters via MLE
         
         count_m = count_m + 1
     
@@ -190,7 +190,7 @@ np.savetxt("accuracy_SF_DFData.txt", accuracy_SF_total)
 np.savetxt("accuracy_DF_DFData.txt", accuracy_DFlearn_total)
 np.savetxt("accuracy_LRPR_DFData.txt", accuracy_LRPR_total)
 np.savetxt("accuracy_MV_DFData.txt", accuracy_MV_total)
-#np.savetxt("accuracy_BC_DFData.txt", accuracy_BC_total)
+#np.savetxt("accuracy_BC_DFData.txt", accuracy_BC_total) #Uncomment and run this when the blade-chest synthetic data is already generated and Blade-Chest model gives the model parameters via MLE
 
 
 
@@ -205,7 +205,7 @@ np.savetxt("rmse_DFlearn_DFData.txt", rmse_DFlearn_total)
 np.savetxt("rmse_MV_DFData.txt", rmse_MV_total)
 np.savetxt("rmse_SF_DFData.txt", rmse_SF_total)
 np.savetxt("rmse_LRPR_DFData.txt", rmse_LRPR_total)
-#np.savetxt("rmse_BC_DFData.txt", rmse_BC_total)
+#np.savetxt("rmse_BC_DFData.txt", rmse_BC_total) #Uncomment and run this when the blade-chest synthetic data is already generated and Blade-Chest model gives the model parameters via MLE
 
 '''acc_RC = np.loadtxt("accuracy_RC_DFData.txt")
 acc_DF = np.loadtxt("accuracy_DF_DFData.txt")
