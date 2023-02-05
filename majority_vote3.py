@@ -126,7 +126,7 @@ def majority_vote_ll(params, data, dim, num_items, num_pairs, flag):
             prob_estimated[a][b] = w_ab
             prob_estimated[b][a] = 1 - w_ab
 
-            #prob_testdata[a][b] = ((int(float(na)))+1)/(int(float(na)) + int(float(nb)) + 2)
+            
             prob_testdata[a][b] = (int(float(na)))/(int(float(na)) + int(float(nb)))
             prob_testdata[b][a] = 1 - prob_testdata[a][b]
 
@@ -504,8 +504,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed):
     return test_acc, ktc, upsets, rmse
     #return pred_accuracy, ktc
 
-#def MV_MLE_Realdata(num_items, params, dim_mv, seed):
-#def MV_MLE_Realdata(train_data1, train_data2, test_data1, test_data2, num_items, prob_data, params, dim_mv, seed):
+
 def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv, seed):
     
 
@@ -513,12 +512,6 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
 
     dim = dim_mv
-
-    #data = np.loadtxt("data_majority_vote_train.txt", dtype = float)
-    #data = np.loadtxt("jester_train"+str(seed)+".txt", dtype = float)
-    #data = np.loadtxt("movielenstrain"+str(seed)+".txt", dtype = float)
-
-    #data, num_pairs = create_data.create_data(train_data1, train_data2, num_items)
 
     data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed)
     valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed)
