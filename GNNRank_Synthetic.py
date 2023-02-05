@@ -31,9 +31,13 @@ def DFdata(embedding_obj, num_items, l, m, seed):
     
     data, num_pairs = create_data3.create_data_synthetic(train_set1, train_set2, num_items, seed, m)
 
+    ##below is for SFData/BTLData
+
     
     #np.savetxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"_"+str(seed)+"_testdata1_SF.txt", test_set1)
     #np.savetxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"_"+str(seed)+"_testdata2_SF.txt", test_set2)
+
+    ##below is for DFData
 
     np.savetxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata1.txt", test_set1)
     np.savetxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata2.txt", test_set2)
