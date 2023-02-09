@@ -59,13 +59,13 @@ for seed in range(10):
     train_data, test_data = train_test_split(Dota, test_size=0.30, random_state=seed)
     train_val_data, val_data = train_test_split(train_data, test_size=0.20, random_state=seed)
 
-    np.savetxt("GNNRank_Datasets_finer/HotS_Gnnrank_train"+str(seed)+"_preprocessing.txt", train_data)
-    np.savetxt("GNNRank_Datasets_finer/HotS_Gnnrank_test"+str(seed)+"_preprocessing.txt", test_data)
+    np.savetxt("GNNRank_Datasets_finer/"+data_name+"_Gnnrank_train"+str(seed)+"_preprocessing.txt", train_data)
+    np.savetxt("GNNRank_Datasets_finer/"+data_name+"_Gnnrank_test"+str(seed)+"_preprocessing.txt", test_data)
     
     
-    #train_data = np.loadtxt("GNNRank_Datasets_finer/DOTA_Gnnrank_train"+str(seed)+"_preprocessing.txt", dtype = 'float')
+    #train_data = np.loadtxt("GNNRank_Datasets_finer/"+data_name+"_Gnnrank_train"+str(seed)+"_preprocessing.txt", dtype = 'float')
     data_final1, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
-    #test_data = np.loadtxt("GNNRank_Datasets_finer/HotS_Gnnrank_test"+str(seed)+"_preprocessing.txt", dtype = 'float')
+    #test_data = np.loadtxt("GNNRank_Datasets_finer/"+data_name+"_Gnnrank_test"+str(seed)+"_preprocessing.txt", dtype = 'float')
     data_final2, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
 
     
