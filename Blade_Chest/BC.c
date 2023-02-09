@@ -28,7 +28,7 @@ char trainfile[200];
 char testfile[200];
 char embeddingfile[200];
 char matchupmatfile[200];
- FILE *fp;
+FILE *fp;
 
 GRECORDS read_game_records_data(char* filename, int verbose)
 {
@@ -40,19 +40,14 @@ GRECORDS read_game_records_data(char* filename, int verbose)
 	char templine[INT_BUF_SZ];
 	FILE* fp = fopen(filename, "r");
 	if(fgets(templine, INT_BUF_SZ, fp) != NULL)
-  {
-    
-	grs.num_players = extract_tail_int(templine, "numPlayers: ");
-    
-  }
-  grs.all_players = (char**)malloc(grs.num_players * sizeof(char*));
+		grs.num_players = extract_tail_int(templine, "numPlayers: ");
+	grs.all_players = (char**)malloc(grs.num_players * sizeof(char*));
 	for(i = 0; i < grs.num_players; i++)
 		grs.all_players[i] = (char*)malloc(100 * sizeof(char));
 	for(i = 0; i < grs.num_players; i++)
 	{
 		if(fgets(templine, INT_BUF_SZ, fp) != NULL)
 		{
-      
 			t = 0;
 			tt = 0;
 			while(templine[t] != ' ')
@@ -61,7 +56,6 @@ GRECORDS read_game_records_data(char* filename, int verbose)
 			while(templine[t] != '\n')
 				grs.all_players[i][tt++] = templine[t++];
 			grs.all_players[i][tt] = '\0';
-      
 		}
 	}
 
@@ -69,23 +63,12 @@ GRECORDS read_game_records_data(char* filename, int verbose)
 	{
 		for(i = 0; i < grs.num_players; i++)
 		{
-      
 			printf("%s\n", grs.all_players[i]);
-      
 		}
 	}
-
 	if(fgets(templine, INT_BUF_SZ, fp) != NULL)
-  {
-    
-	grs.num_games = extract_tail_int(templine, "numGames: ");
-    
-    templine[INT_BUF_SZ+1] = '\0';
-    printf("%s\n", fgets(templine, INT_BUF_SZ, fp));
-    
-  }
-  
-  
+		grs.num_games = extract_tail_int(templine, "numGames: ");
+
 	grs.all_games = (MATCH*)malloc(grs.num_games * sizeof(MATCH));
 	grs.test_mask = (int*)malloc(grs.num_games * sizeof(int));
 
@@ -106,20 +89,11 @@ GRECORDS read_game_records_data(char* filename, int verbose)
 			memcpy(for_string, templine, counter * sizeof(char));
 			for_string[counter + 1] = '\0';
 			if(strcmp("FOR_TRAINING", for_string) == 0)
-      {
 				grs.test_mask[t] = FOR_TRAINING;
-        
-      }
 			else if(strcmp("FOR_VALIDATION", for_string) == 0)
-      {
 				grs.test_mask[t] = FOR_VALIDATION;
-        
-      }
 			else
-      {
 				grs.test_mask[t] = FOR_TESTING;
-        
-      }
 
 			extract_game_detal_from_line(templine + counter + 1, &pa, &pb, &na, &nb);
 
@@ -270,10 +244,7 @@ GEMBEDDING game_embedding_train_test(GRECORDS grs, PARAS myparas)
 			else if(i % 10 <= 6)
 				grs.test_mask[i] = FOR_VALIDATION;
 			else
-      {
 				grs.test_mask[i] = FOR_TESTING;
-
-      }
 		}
 	}
 
@@ -883,29 +854,24 @@ GEMBEDDING game_embedding_train_test(GRECORDS grs, PARAS myparas)
 	ll_validate_naive = 0.0;
 	correct_validate_naive = 0.0;
 
- 
-
 
 	for(triple_id = 0; triple_id < grs.num_games; triple_id++)
 	{
+		//printf("%d, %d\n", triple_id, grs.num_games);
 		game_triple = grs.all_games[triple_id]; 
 		a = game_triple.pa;
 		b = game_triple.pb;
 		winner = game_triple.pw;
-		
+		//printf("(%d, %d, %d, %d)\n", a, b, winner, grs.test_mask[triple_id]);
 
 		mf = matchup_fun(main_embedding, a, b, myparas.modeltype);
-		
+		//printf("mf: %f\n", mf);
 		prob_a = logistic_fun(mf);
 		prob_b = 1.0 - prob_a;
 		if(winner == a)
 			coeff = prob_a;
 		else
 			coeff = -prob_b;
-
-    
-
-		
 
 
 		if(grs.test_mask[triple_id] == FOR_VALIDATION)
@@ -949,9 +915,7 @@ GEMBEDDING game_embedding_train_test(GRECORDS grs, PARAS myparas)
 			if((winner == a && prob_a >= 0.5) || (winner == b && prob_b > 0.5))
 				correct_test += 1.0;
 
-      
-      
-      			fp = fopen("test_indices_BC.txt", "a");
+			fp = fopen("test_indices_BC.txt", "a");
 
 			fprintf(fp, "%d \n", triple_id);
 
@@ -1098,7 +1062,6 @@ double safe_log_logit(double a)
 int main(int argc, char* argv[])
 {
 	PARAS myparas = parse_paras(argc, argv, trainfile, embeddingfile);
-	printf("Hi main");
 	GRECORDS grs = read_game_records_data(trainfile, 0);
 	GEMBEDDING ebd = game_embedding_train_test(grs, myparas);
 	write_GameEmbedding_to_file(ebd, embeddingfile);
