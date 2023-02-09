@@ -212,7 +212,7 @@ def get_accuracy_Synthetic(params, data, prob_test, dim, num_items, num_pairs, c
 
 
 
-def BC():
+def BC(data_name, num_items):
 
     
    
@@ -220,13 +220,13 @@ def BC():
     choice = 'inner'
     
 
-    data = np.array(pd.read_csv('WoL.csv'))       ##Change the name of the dataset in place of WoL
+    data = np.array(pd.read_csv(data_name+'.csv'))       ##Change the name of the dataset in place of WoL
 
     
 
     print(data)
 
-    num_items = 4381  ##change the number of items a/c to the dataset
+    #num_items = 4381  ##change the number of items a/c to the dataset
     
 
     test_indices = np.loadtxt('test_indices_BC_WoL.txt', dtype = int) ##Change the name of the dataset in place of WoL (this text file is saved from the blade chest software to know the dataset indices used for test data)
@@ -278,7 +278,7 @@ def BC():
     params_bc_ranks = np.reshape(params_bc_ranks, (1,num_items))
     params_bc_updated = np.append(params_bc_updated, params_bc_ranks, axis = 0)
         
-    test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed)
+    test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
 
     
     test_acc, pred_accuracy, rmse = get_accuracy(params_bc_updated, test_data, dim, num_items, test_pairs,choice)
@@ -293,9 +293,9 @@ def BC():
     return test_acc, pred_accuracy, rmse
     
 
-def BC_Synthetic(m, seed, score_orig):
+def BC_Synthetic(m, seed, score_orig, data_name):
 
-    prob_test = np.loadtxt("BC_BTLData/BC_prob_test_BTLData_"+str(m)+"_"+str(seed)+".txt", dtype = float)
+    prob_test = np.loadtxt("BC_"+data_name+"Data/BC_prob_test_"+data_name+"Data_"+str(m)+"_"+str(seed)+".txt", dtype = float)
     
     print(prob_test)
    
@@ -303,7 +303,7 @@ def BC_Synthetic(m, seed, score_orig):
     choice = 'inner'
     num_items = 100
     
-    df = pd.read_csv('BC_BTLData/BC_BTLdata_train'+str(m)+'_'+str(seed)+'.txt', sep=r'\s*(:\n\n)\s*', skiprows=0, engine='python',header=None)
+    df = pd.read_csv('BC_"+data_name+"Data/BC_"+data_name+"data_train'+str(m)+'_'+str(seed)+'.txt', sep=r'\s*(:\n\n)\s*', skiprows=0, engine='python',header=None)
     
     df.columns  = ['column1']
    
@@ -353,10 +353,10 @@ def BC_Synthetic(m, seed, score_orig):
 
     print("num_pairs = ", num_pairs_test)
 
-    chest_vecs = np.array(pd.read_csv("BC_BTLData/"+str(m)+"_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))
-    blade_vecs = np.array(pd.read_csv("BC_BTLData/"+str(m)+"_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
+    chest_vecs = np.array(pd.read_csv("BC_"+data_name+"Data/"+str(m)+"_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))
+    blade_vecs = np.array(pd.read_csv("BC_"+data_name+"Data/"+str(m)+"_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
 
-    params_bc_ranks = np.array(pd.read_csv("BC_BTLData/"+str(m)+"_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
+    params_bc_ranks = np.array(pd.read_csv("BC_"+data_name+"Data/"+str(m)+"_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
 
     params_bc_updated = np.append(blade_vecs, chest_vecs, axis = 1)
     params_bc_updated = np.transpose(params_bc_updated)
