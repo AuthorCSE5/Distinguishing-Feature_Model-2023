@@ -155,14 +155,13 @@ for seed in range(10):
 
         print(m)
 
-        score = np.loadtxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"/"+str(seed)+"/Score_Dist.txt", dtype = float)
-        #score = np.loadtxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"/"+"64_0.05/Score_innerproduct.txt", dtype = float)
-        #score = np.loadtxt("GNNRank_Datasets_finer/Synthetic/BTL/"+str(m)+"/"+str(seed)+"/Score_proximalbaseline.txt", dtype = float)
+        score = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"/"+str(seed)+"/Score_Dist.txt", dtype = float)
+        
 
-        #testdata1 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"_"+str(seed)+"_testdata1_SF.txt", dtype = float)
+        
         testdata1 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata1.txt", dtype = float)
 
-        #testdata2 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"_"+str(seed)+"_testdata2_SF.txt", dtype = float)
+        
         testdata2 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata2.txt", dtype = float)
 
         num_pairs = testdata1.shape[0]
