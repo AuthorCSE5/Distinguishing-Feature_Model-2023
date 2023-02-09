@@ -157,10 +157,10 @@ for seed in range(10):
         
 
         
-        testdata1 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata1.txt", dtype = float)
+        testdata1 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata1_DF.txt", dtype = float)
 
         
-        testdata2 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata2.txt", dtype = float)
+        testdata2 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata2_DF.txt", dtype = float)
 
         num_pairs = testdata1.shape[0]
 
