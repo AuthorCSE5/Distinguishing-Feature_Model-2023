@@ -5,7 +5,7 @@ from scipy.special import comb
 import time
 
 
-def create_data(embedding_obj, num_items, l, m, seed):
+def create_data(embedding_obj, num_items, l, m, seed, data_name):
     
     train_set1 = np.copy(embedding_obj.train_data1)
     train_set2 = np.copy(embedding_obj.train_data2)
@@ -15,7 +15,7 @@ def create_data(embedding_obj, num_items, l, m, seed):
     #validation_data2 = np.copy(embedding_obj.validation_data2)
     prob_test = np.copy(embedding_obj.prob_test)
 
-    np.savetxt("BC_prob_test_SFData_"+str(m)+"_"+str(seed)+".txt", prob_test)   ##Change the dataset name for other 2 datsets (SF -> DF/BTL)
+    np.savetxt("BC_prob_test_"+data_name+"Data_"+str(m)+"_"+str(seed)+".txt", prob_test)   
 
     total_pairs = int(comb(num_items,2))
     
@@ -147,7 +147,7 @@ def create_data(embedding_obj, num_items, l, m, seed):
         
     
 
-    with open('BC_SFdata_train'+str(m)+'_'+str(seed)+'.txt','w') as f:              ##Change the dataset name for other 2 datsets (SF -> DF/BTL)
+    with open('BC_'+data_name+'data_train'+str(m)+'_'+str(seed)+'.txt','w') as f:             
         np.savetxt(f, player_names, fmt='%s', delimiter=" ")
         np.savetxt(f, complete_data2, fmt='%s', delimiter=" ")
         
