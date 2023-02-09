@@ -429,7 +429,7 @@ def obj_fn(params, data):
        
  
 
-def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed):
+def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
 
     train_set1 = np.copy(embedding_obj.train_data1)
     train_set2 = np.copy(embedding_obj.train_data2)
@@ -455,7 +455,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed):
     print("m = ", m)
    
     
-    data, num_pairs = create_data.create_data(train_set1, train_set2, num_items, 'train', seed)
+    data, num_pairs = create_data.create_data(train_set1, train_set2, num_items, 'train', seed, data_name)
     
 
     #flatten the nd arrays and pass as x0 or args in minimize
@@ -472,7 +472,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed):
     
     print("Hello")
 
-    #f, gradf = obj_fn(params, data2)
+    
 
     n_iter = 100
     learning_rate = 0.001
@@ -480,17 +480,16 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed):
     params_gd = grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs)
     weights_bc = params_gd
     
-    #res = minimize(obj_fn, x0 = params, args = data2, method = 'BFGS', jac = True, tol = 1e-6, options = {'maxiter': 10000}) #minimize the negative log likelihood
-    #weights_bc = res.x
+    
     weights_bc = np.reshape(weights_bc, (dim,num_items))
 
-    #valid_data, num_pairs_val = create_data.create_data(validation_data1, validation_data2, num_items, 'train', seed)
+    #valid_data, num_pairs_val = create_data.create_data(validation_data1, validation_data2, num_items, 'train', seed, data_name)
 
     #validation_ll, validation_ll_der = majority_vote_ll_DFData(weights_bc, validation_data1, validation_data2, dim, num_items)
 
     #print(validation_ll)
 
-    #test_data, num_pairs_test = create_data.create_data(test_set1, test_set2, num_items, 'test', seed)
+    #test_data, num_pairs_test = create_data.create_data(test_set1, test_set2, num_items, 'test', seed, data_name)
     
     test_ll, test_ll_der = majority_vote_ll_DFData(weights_bc, test_set1, test_set2, dim, num_items)
     test_acc, ktc, upsets, rmse = get_accuracy_synthetic(weights_bc, dim, num_items, prob_test, score_DFdata, test_set1, test_set2)
