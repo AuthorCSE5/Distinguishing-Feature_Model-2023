@@ -5,7 +5,7 @@ from scipy.special import comb
 import time
 
 
-def create_data(train_set, num_items, flag, t):
+def create_data(train_set, num_items, flag, t, data_name):
 
     print("Creating Data...")
 
@@ -182,7 +182,7 @@ def create_data(train_set, num_items, flag, t):
     return data, num_pairs
 
 
-def create_data_synthetic(train_set1, train_set2, num_items, seed, m):
+def create_data_synthetic(train_set1, train_set2, num_items, seed, m, data_name):
 
     print("Creating Data...")
 
@@ -280,7 +280,7 @@ def create_data_synthetic(train_set1, train_set2, num_items, seed, m):
     print(data)   
         
     
-    np.savetxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_DFData.txt", data)  ##/In place of DF , we have to write SF/BTL for the respective datasets
+    np.savetxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_"+data_name+"Data.txt", data)
     
         
     return data, num_pairs
