@@ -22,4 +22,4 @@ For GNNRank algorithm find the codes at https://github.com/SherylHYX/GNNRank/tre
 
 6) For GNNRank, we need to extract the scores of items from the algorithm that are used for further ranking purpose. It is because, in our code, we need the scores explicitly to evaluate the prediction accuracy as well as the rmse values. Hence, there are slight changes in the original GNNRank/src/train.py file (https://github.com/SherylHYX/GNNRank/tree/14c5b3e22ed4dc76639013580359809885b0d0fa) . Find the updated file in the GNNRank/ folder here.
 
-
+7) Create the finer versions of the real/synthetic datasets in the original GNNRank/data/ folder. Create a data preprocessing file named DF_preprocess.py in the same folder to find the adjacency matrix of the datasets. The finer versions of the datasets are created using the GNNRank_Data.py file.
