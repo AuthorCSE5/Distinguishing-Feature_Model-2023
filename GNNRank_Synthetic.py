@@ -10,7 +10,7 @@ import create_data3
 import GNNRank_Accuracy
 
 
-def DFdata(embedding_obj, num_items, l, m, seed):
+def DFdata(embedding_obj, num_items, l, m, seed, data_name):
 
     train_set1 = np.copy(embedding_obj.train_data1)
     train_set2 = np.copy(embedding_obj.train_data2)
@@ -29,10 +29,10 @@ def DFdata(embedding_obj, num_items, l, m, seed):
     total_pairs = int(comb(num_items,2))
     
     
-    data, num_pairs = create_data3.create_data_synthetic(train_set1, train_set2, num_items, seed, m, 'DF') ##put SF/BTL in place of DF
+    data, num_pairs = create_data3.create_data_synthetic(train_set1, train_set2, num_items, seed, m, data_name) 
     
-    #np.savetxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata1_DF.txt", test_set1) ##put SF/BTL in place of DF
-    #np.savetxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata2_DF.txt", test_set2) ##put SF/BTL in place of DF
+    #np.savetxt("GNNRank_Datasets_finer/Synthetic/"+data_name+"/"+str(m)+"_"+str(seed)+"_testdata1_"+data_name+".txt", test_set1) 
+    #np.savetxt("GNNRank_Datasets_finer/Synthetic/"+data_name+"/"+str(m)+"_"+str(seed)+"_testdata2_"+data_name+".txt", test_set2) 
 
     
     
