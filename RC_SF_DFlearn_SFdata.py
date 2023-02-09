@@ -156,14 +156,14 @@ for t in range(10):
         accuracy_SF, ktc_SF, rmse_SF = SFmodel_Copeland.SF_MLE_SFdata(embedding_obj, num_items, l, m, dim, embeddings)
         accuracy_DFlearn, ktc_DFlearn, upset_DFlearn, cycles, cycle_fraction, rmse_DFlearn = DFlearn.Ranking(embedding_obj, num_items, l, m, dim, dim2) #, idx)
         accuracy_LRPR, ktc_LRPR, rmse_LRPR = LRPR.LRPR(embedding_obj, num_items, l , m)
-        accuracy_MV, ktc_MV, upsets_MV, rmse_MV = majority_vote3.MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim_mv, t)
-        data_BC = blade_chest_Synthetic_DFData.create_data(embedding_obj, num_items, l, m, t)
+        accuracy_MV, ktc_MV, upsets_MV, rmse_MV = majority_vote3.MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim_mv, t, 'SF')
+        data_BC = blade_chest_Synthetic_DFData.create_data(embedding_obj, num_items, l, m, t, 'SF')
 
         #score_SFdata = np.copy(embedding_obj.score)
         
-        #pred_accuracy,rmse, ktc = BC_Accuracy.BC_Synthetic(m, t, score_SFdata)
+        #pred_accuracy,rmse, ktc = BC_Accuracy.BC_Synthetic(m, t, score_SFdata, 'SF')
 
-        GNNRank_Synthetic.DFdata(embedding_obj, num_items, l, m, t) #GNN format data generation 
+        GNNRank_Synthetic.DFdata(embedding_obj, num_items, l, m, t, 'SF') #GNN format data generation 
 
         
         accuracy_RC_total[count_iter][count_m] = accuracy_RC
