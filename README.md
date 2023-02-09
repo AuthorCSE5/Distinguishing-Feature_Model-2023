@@ -20,7 +20,7 @@ For GNNRank algorithm find the codes at https://github.com/SherylHYX/GNNRank/tre
       
 4) ./BC -d 50 -l 0.001 -M 2 -S 5 ../datasets/starcraft/WoL.txt BC_WoL_5.txt ---- execute this command for seed value 5 and save the model parameters in a file BC_WoL_5(seed value).txt for WoL dataset.
 
-5) ./BC -d 50 -l 0.001 -M 2 ../datasets/BC_DFdata_train664_0.txt 664_0.txt ----- execute this command for the synthetic dataset BC_DFdata_train664_0.txt for seed value 0 and save the model parameters in a file 664_0(seed value).txt.
+5) ./BC -d 50 -l 0.001 -M 2 ../datasets/BC_DFdata_train664_0.txt 664_0.txt ----- execute this command for the synthetic dataset BC_DFdata_train664_0.txt for seed value 0 and save the model parameters in a file 664_0(seed value).txt. Save the synthetic datasets in the blade_chest/datasets/ folder as BC_DFdata_train664_0.txt for dataset generated from the Distinguishing Features (DF) model for number of training pairs = 664(c = 1) and for seed value 0.
 
 
 
