@@ -34,6 +34,7 @@ K = 13'''
 num_games = 139982
 K = 11'''
 
+data_name = 'HotS'
 num_items = 2287
 num_games = 28582
 K = 12     #K = int(math.log2(num_items)) + 1 #ceiling
@@ -63,9 +64,9 @@ for seed in range(10):
     
     
     #train_data = np.loadtxt("GNNRank_Datasets_finer/DOTA_Gnnrank_train"+str(seed)+"_preprocessing.txt", dtype = 'float')
-    data_final1, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed)
+    data_final1, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
     #test_data = np.loadtxt("GNNRank_Datasets_finer/HotS_Gnnrank_test"+str(seed)+"_preprocessing.txt", dtype = 'float')
-    data_final2, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed)
+    data_final2, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
 
     
 
