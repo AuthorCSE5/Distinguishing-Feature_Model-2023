@@ -175,15 +175,10 @@ def create_data(train_set, num_items, flag, t):
 
     print(data)
 
-    
-    np.savetxt("WoL_modified"+flag+str(t)+".txt", data)    ##to save the data for majority vote/blade chest
-        
-    #np.savetxt("movie_modified"+flag+str(t)+".txt", data)
-     
-    #np.savetxt("GNNRank_Datasets_finer/WoL_modified"+flag+str(t)+".txt", data)  ##only for GNNRank data
-
-    #np.savetxt("WoL_BC_test" + str(num_pairs) + ".txt", data)
-        
+    np.savetxt(data_name+"_modified"+flag+str(t)+".txt", data) ##to save the data for majority vote/blade chest
+         
+    #np.savetxt("GNNRank_Datasets_finer/"+data_name+"_modified"+flag+str(t)+".txt", data)  ##only for GNNRank data
+       
     return data, num_pairs
 
 
