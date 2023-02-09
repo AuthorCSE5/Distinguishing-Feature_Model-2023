@@ -25,6 +25,7 @@ import create_data_GNNRank
 Dota = np.array(pd.read_csv('WoL_Starcraft.csv'))
 
 num_items = 4381
+data_name = 'WoL'
 
 
 print("num_items = ", num_items)
@@ -106,17 +107,18 @@ for seed in range(10):
     LRPR_accuracy, LRPR_rmse = LRPR.LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, prob_data)
     print("LRPR_accuracy = ", LRPR_accuracy)
 
-    #GNN_train = create_data3.create_data(train_data, num_items, 'train', seed)
-    #GNN_test = create_data3.create_data(test_data, num_items, 'test', seed)
-
-    #np.savetxt("WoL_modifiedtrain0.txt", GNN_train)
-    #np.savetxt("WoL_modifiedtest0.txt", GNN_test)
-     
+    GNN_train = create_data3.create_data(train_data, num_items, 'train', seed, data_name)  #create train data for gnnrank
+    GNN_test = create_data3.create_data(test_data, num_items, 'test', seed, data_name) #create test data for gnnrank
+    
+    
+    ### Use below 3 lines to evaluate accuracy and rmse after running GNNRank and saving the scores
+    '''
     score = np.loadtxt("GNNRank_Datasets_finer/WoL/Score_proximaldist.txt", dtype = float)
     
     testdata = np.loadtxt("GNNRank_Datasets_finer/WoL_modifiedtest0.txt", dtype = float)
         
     GNN_Accuracy = GNNRank_Accuracy.get_accuracy(testdata, score, num_items)
+    '''
     
     RC_accuracy_total[seed][0] = RC_accuracy
     LRPR_accuracy_total[seed][0] = LRPR_accuracy
