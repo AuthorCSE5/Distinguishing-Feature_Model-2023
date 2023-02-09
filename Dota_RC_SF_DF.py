@@ -16,6 +16,9 @@ import majority_vote3
 import LRPR
 import GNNRank_Accuracy
 import create_data_GNNRank
+import BC_Accuracy
+
+
 
 
 #Dota = np.array(pd.read_csv('DOTA.csv')) #num_items = 757
@@ -106,6 +109,8 @@ for seed in range(10):
 
     LRPR_accuracy, LRPR_rmse = LRPR.LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, prob_data)
     print("LRPR_accuracy = ", LRPR_accuracy)
+    
+    test_acc, pred_accuracy, rmse = BC_Accuracy.BC()
 
     GNN_train = create_data3.create_data(train_data, num_items, 'train', seed, data_name)  #create train data for gnnrank
     GNN_test = create_data3.create_data(test_data, num_items, 'test', seed, data_name) #create test data for gnnrank
