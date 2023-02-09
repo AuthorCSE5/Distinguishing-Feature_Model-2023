@@ -25,3 +25,5 @@ For GNNRank algorithm find the codes at https://github.com/SherylHYX/GNNRank/tre
 7) Create the finer versions of the real/synthetic datasets in the original GNNRank/data/ folder. Create a data preprocessing file named DF_preprocess.py in the same folder to find the adjacency matrix of the datasets. The finer versions of the datasets are created using the GNNRank_Data.py file.
 
 8) The scores will be saved as Score_Dist.txt, Score_innerproduct.txt, Score_proximalbaseline.txt, Score_proximaldist.txt, Score_proximalinnerproduct.txt in the original GNNRank/src/ folder(https://github.com/SherylHYX/GNNRank/tree/14c5b3e22ed4dc76639013580359809885b0d0fa). The score text files for synthetic dataset generated from the DF model for number of pairs = 664 and seed value 0,  need to be placed in the GNNRank_Datasets_finer/Synthetic/DF/664/0 folder. The score text files for real dataset WoL and for seed value 0, need to be saved in GNNRank_Datasets_finer/WoL/0 folder.
+
+9) 
