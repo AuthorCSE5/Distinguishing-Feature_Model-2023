@@ -110,7 +110,7 @@ for seed in range(10):
     LRPR_accuracy, LRPR_rmse = LRPR.LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, prob_data)
     print("LRPR_accuracy = ", LRPR_accuracy)
     
-    test_acc, pred_accuracy, rmse = BC_Accuracy.BC()
+    test_acc, pred_accuracy, rmse = BC_Accuracy.BC(data_name, num_items)
 
     GNN_train = create_data3.create_data(train_data, num_items, 'train', seed, data_name)  #create train data for gnnrank
     GNN_test = create_data3.create_data(test_data, num_items, 'test', seed, data_name) #create test data for gnnrank
