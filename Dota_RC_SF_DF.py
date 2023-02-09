@@ -99,7 +99,7 @@ for seed in range(10):
     train_val_data, val_data = train_test_split(train_data, test_size=0.20, random_state=seed)
 
     ##test_ll, test_acc, rmse = majority_vote3.MV_MLE_Realdata(train_data1, train_data2, test_data1, test_data2, num_items, prob_data, params, dim_mv, seed)
-    test_ll, test_acc, rmse = majority_vote3.MV_MLE_Realdata(train_data, val_data, test_data, num_items, params, dim_mv, seed)
+    test_ll, test_acc, rmse = majority_vote3.MV_MLE_Realdata(train_data, val_data, test_data, num_items, params, dim_mv, seed, data_name)
     print("rmse = ", rmse)
     print("test_ll = ", test_ll)
     print("MV_accuracy = ", test_acc) 
