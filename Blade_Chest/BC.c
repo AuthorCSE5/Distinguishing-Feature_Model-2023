@@ -80,7 +80,7 @@ GRECORDS read_game_records_data(char* filename, int verbose)
     
 	grs.num_games = extract_tail_int(templine, "numGames: ");
     
-    //templine[INT_BUF_SZ+1] = '\0';
+    templine[INT_BUF_SZ+1] = '\0';
     printf("%s\n", fgets(templine, INT_BUF_SZ, fp));
     
   }
