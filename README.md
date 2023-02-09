@@ -2,8 +2,6 @@ For Blade-Chest inner model find the code at https://github.com/csinpi/blade_che
 
 For GNNRank algorithm find the codes at https://github.com/SherylHYX/GNNRank/tree/14c5b3e22ed4dc76639013580359809885b0d0fa
 
-## Synthetic Data 
-
 1) Run RC_SF_DFlearn_DFdata.py/RC_SF_DFlearn_BTLdata.py/RC_SF_DFlearn_SFdata.py for DF model data/ BTL model data/ SF model data respectively.
 
 2) Run Dota_RC_SF_DF.py for all the real datasets.
@@ -22,5 +20,6 @@ For GNNRank algorithm find the codes at https://github.com/SherylHYX/GNNRank/tre
 
 5) ./BC -d 50 -l 0.001 -M 2 ../datasets/BC_DFdata_train664_0.txt 664_0.txt ----- execute this command for the synthetic dataset BC_DFdata_train664_0.txt for seed value 0 and save the model parameters in a file 664_0(seed value).txt. Save the synthetic datasets in the blade_chest/datasets/ folder as BC_DFdata_train664_0.txt for dataset generated from the Distinguishing Features (DF) model for number of training pairs = 664(c = 1) and for seed value 0.
 
+6) For GNNRank, we need to extract the scores of items from the algorithm that are used for further ranking purpose. It is because, in our code, we need the scores explicitly to evaluate the prediction accuracy as well as the rmse values. Hence, there are slight changes in the original GNNRank/src/train.py file https://github.com/SherylHYX/GNNRank/tree/14c5b3e22ed4dc76639013580359809885b0d0fa . Find the updated file in the GNNRank/src/ folder here.
 
 
