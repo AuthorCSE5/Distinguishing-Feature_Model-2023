@@ -29,16 +29,10 @@ def DFdata(embedding_obj, num_items, l, m, seed):
     total_pairs = int(comb(num_items,2))
     
     
-    data, num_pairs = create_data3.create_data_synthetic(train_set1, train_set2, num_items, seed, m)
-
-    ##below is for SFData/BTLData
+    data, num_pairs = create_data3.create_data_synthetic(train_set1, train_set2, num_items, seed, m, 'DF') ##put SF/BTL in place of DF
+    
+    #np.savetxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata1_DF.txt", test_set1) ##put SF/BTL in place of DF
+    #np.savetxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata2_DF.txt", test_set2) ##put SF/BTL in place of DF
 
     
-    #np.savetxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"_"+str(seed)+"_testdata1_SF.txt", test_set1)
-    #np.savetxt("GNNRank_Datasets_finer/Synthetic/SF/"+str(m)+"_"+str(seed)+"_testdata2_SF.txt", test_set2)
-
-    ##below is for DFData
-
-    np.savetxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata1.txt", test_set1)
-    np.savetxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata2.txt", test_set2)
     
