@@ -18,18 +18,11 @@ import GNNRank_Accuracy
 import create_data_GNNRank
 
 
-#Dota = np.array(pd.read_csv('DOTA.csv')) #also used for jester.csv
-#Dota = np.array(pd.read_csv('jester.csv'))
-#Dota = np.array(pd.read_csv('DFdata06640.csv'))
-#Dota = np.array(pd.read_csv('movielens_100k.csv'))
-#Dota = np.array(pd.read_csv('HotS_Starcraft.csv'))
+#Dota = np.array(pd.read_csv('DOTA.csv')) #num_items = 757
+#Dota = np.array(pd.read_csv('jester.csv')) #num_items = 100
+#Dota = np.array(pd.read_csv('movielens_100k.csv')) #num_items = 1682
+#Dota = np.array(pd.read_csv('HotS_Starcraft.csv')) #num_items = 2287
 Dota = np.array(pd.read_csv('WoL_Starcraft.csv'))
-
-#num_items = 100
-#num_items = 1682
-#num_items = 2287
-
-#num_items = 757 #Dota[0,0]
 
 num_items = 4381
 
@@ -38,15 +31,11 @@ print("num_items = ", num_items)
 data_size = Dota[0,0]
 print("data_size = ", data_size)
 
-dim2 = 50
-c = 0.0009 #l2 regularization parameter
 
 
-#print(Dota)
-#print(np.shape(Dota))
-
-#Dota = Dota[1:,:]
-Dota = Dota[num_items+1:,0:]
+#Dota = Dota[1:,:]  ##used for jester and DoTA
+Dota = Dota[num_items+1:,0:]  ##used for HotS and WoL
+#Dota = Dota[num_items+1:,1:]  ##used for movielens
 Dota = Dota.astype('int')
 print("Dota = ", Dota, "size = ", np.shape(Dota)[0])
 
@@ -117,16 +106,13 @@ for seed in range(10):
     LRPR_accuracy, LRPR_rmse = LRPR.LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, prob_data)
     print("LRPR_accuracy = ", LRPR_accuracy)
 
-    #data_final = create_data_GNNRank.create_data(train_data1, train_data2, num_items, 'train', seed)
-    #data_final2 = create_data_GNNRank.create_data(test_data1, test_data2, num_items, 'test', seed)
+    #GNN_train = create_data3.create_data(train_data, num_items, 'train', seed)
+    #GNN_test = create_data3.create_data(test_data, num_items, 'test', seed)
 
-    #np.savetxt("test_data1.txt", test_data1)
-    #np.savetxt("test_data2.txt", test_data2)
-    
-    #testdata1 = np.loadtxt("test_data1.txt", dtype = float)
-    #testdata2 = np.loadtxt("test_data2.txt", dtype = float)
-    
-    score = np.loadtxt("GNNRank_Datasets_finer/WoL/0.01/Score_proximaldist.txt", dtype = float)
+    #np.savetxt("WoL_modifiedtrain0.txt", GNN_train)
+    #np.savetxt("WoL_modifiedtest0.txt", GNN_test)
+     
+    score = np.loadtxt("GNNRank_Datasets_finer/WoL/Score_proximaldist.txt", dtype = float)
     
     testdata = np.loadtxt("GNNRank_Datasets_finer/WoL_modifiedtest0.txt", dtype = float)
         
@@ -163,7 +149,8 @@ np.savetxt("RMSE_LRPR_WoL.txt", LRPR_rmse_total)
 np.savetxt("RMSE_SF_WoL.txt", SF_accuracy_total)
 np.savetxt("RMSE_DF_WoL.txt", SF_rmse_total)
 
-np.savetxt("accuracy_MV_WoL.txt", BC_accuracy_total)
+np.savetxt("accuracy_BC_WoL.txt", BC_accuracy_total)
+np.savetxt("RMSE_BC_WoL.txt", BC_rmse_total)
 
 
 
