@@ -258,27 +258,22 @@ def BC():
 
     print("num_pairs = ", num_pairs_test)
 
+    chest_vecs = np.array(pd.read_csv("BC_WoL"+"_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))     ##Change the name of the dataset in place of WoL
+    blade_vecs = np.array(pd.read_csv("BC_WoL"+"_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
+
+    params_bc_ranks = np.array(pd.read_csv("BC_WoL"+"_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
+
+
     
-
-    params_bc = np.loadtxt("BC_WoL.txt", dtype = float)         ##Change the name of the dataset in place of WoL
-
-    
-
-
-    chest_vecs = params_bc[0:num_items,:]
-    print("param_dim = ", chest_vecs.shape)
     #chest_vecs = np.transpose(chest_vecs)
-    blade_vecs = params_bc[num_items:2*num_items,:]
     #blade_vecs = np.transpose(blade_vecs)
     #params_bc_updated = np.append(blade_vecs, chest_vecs, axis = 0)
+    
     params_bc_updated = np.append(blade_vecs, chest_vecs, axis = 1)
     params_bc_updated = np.transpose(params_bc_updated)
 
     
 
-    
-
-    params_bc_ranks = np.loadtxt("BC_WoL_rank.txt", dtype = float)      ##Change the name of the dataset in place of WoL
     #params_bc_ranks = np.transpose(params_bc_ranks)
     params_bc_ranks = np.reshape(params_bc_ranks, (1,num_items))
     params_bc_updated = np.append(params_bc_updated, params_bc_ranks, axis = 0)
