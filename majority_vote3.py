@@ -505,7 +505,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed):
     #return pred_accuracy, ktc
 
 
-def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv, seed):
+def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv, seed, data_name):
     
 
     total_pairs = int(comb(num_items,2))
@@ -513,13 +513,11 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     dim = dim_mv
 
-    data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed)
-    valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed)
-    test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed)
+    data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
+    valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed, data_name)
+    test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
 
-    #data = np.loadtxt("new_WoL_modifiedtrain"+str(seed)+".txt", dtype = float)
-    #valid_data = np.loadtxt("new_WoL_modifiedvalidation"+str(seed)+".txt", dtype = float)
-    #test_data = np.loadtxt("new_WoL_modifiedtest"+str(seed)+".txt", dtype = float)
+    
     
     data = data.astype(int)
     print(data)
@@ -538,31 +536,26 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     print(data.shape[0])
     params = params.flatten()
 
-    #print(num_pairs)
+    
 
     data2 = np.append(data, num_items)
     data2 = np.append(data2, num_pairs)
     data2 = np.append(data2, dim)
     
-    print("Hello")
+    
 
-    #f, gradf = obj_fn(params, data2)
+    
 
     n_iter = 200
     print("iter = ", n_iter)
     learning_rate = 0.0005 #MV
     #learning_rate = 0.005 #HotS 
     #learning_rate = 0.005 #WoL
-    #learning_rate = 0.0005 #Dota
-    #learning_rate = 0.005 #Dota2
-    #learning_rate = 0.00005 #jester, n_iter = 20
+    #learning_rate = 0.005 #Dota
+    #learning_rate = 0.00005 #jester
         
     params_gd = grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs)
     weights_bc = params_gd
-    
-    #res = minimize(obj_fn, x0 = params, args = data2, method = 'BFGS', jac = True, tol = 1e-6, options = {'maxiter': 10000, 'disp': True, 'return_all': True}) #minimize the negative log likelihood
-    #res = minimize(obj_fn, x0 = params, args = data2, method = 'Nelder-Mead', tol = 1e-4, options = {'maxiter': 1000})
-    #weights_bc = res.x
     weights_bc = np.reshape(weights_bc, (dim,num_items))
 
     
@@ -573,10 +566,6 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     
 
-    #test_data = np.loadtxt("data_majority_vote_test.txt", dtype = float)
-    #test_data = np.loadtxt("jester_test"+str(seed)+".txt", dtype = float)
-    #test_data = np.loadtxt("movielenstest"+str(seed)+".txt", dtype = float)
-    
     test_data = test_data.astype(int)
     print(test_data)
 
@@ -586,17 +575,7 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     #test_ll, rmse, pred_accuracy = majority_vote_ll(weights_bc, test_data,dim, num_items, num_pairs_test, 'test')
     test_acc, pred_accuracy1, rmse2 = get_accuracy(weights_bc, test_data,dim, num_items, num_pairs_test)
 
-    '''data = data.reshape(num_pairs,4)
-
-    for i in range(num_pairs):
-
-        a = data[i,0]
-        b = data[i,1]
-        na = data[i,2]
-        nb = data[i,3]
     
-        lg = logistic(matchup(a,b))'''
-
     print(test_acc)
     print(test_ll)
     print(rmse2)
@@ -604,5 +583,5 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     print(pred_accuracy1)
     
     return test_ll, pred_accuracy, rmse2
-    #return pred_accuracy, ktc
+    
 
