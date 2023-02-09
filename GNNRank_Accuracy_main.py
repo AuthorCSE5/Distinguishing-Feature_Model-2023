@@ -148,9 +148,7 @@ for seed in range(10):
     
 
     count_m = 0
-
-    #m_vals = [664]
-    
+  
     for m in m_vals:
 
         print(m)
@@ -159,10 +157,10 @@ for seed in range(10):
         
 
         
-        testdata1 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata1.txt", dtype = float)
+        testdata1 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata1.txt", dtype = float)
 
         
-        testdata2 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/"+str(m)+"_"+str(seed)+"_testdata2.txt", dtype = float)
+        testdata2 = np.loadtxt("GNNRank_Datasets_finer/Synthetic/DF/"+str(m)+"_"+str(seed)+"_testdata2.txt", dtype = float)
 
         num_pairs = testdata1.shape[0]
 
@@ -189,7 +187,7 @@ for seed in range(10):
     count_iter = count_iter + 1
 
 
-np.savetxt("accuracy_GNN_dist_SFData.txt", accuracy_total)
-np.savetxt("ktc_GNN_dist_SFData.txt", ktc_total)
-np.savetxt("rmse_GNN_dist_SFData.txt", rmse_total)
+np.savetxt("accuracy_GNN_dist_DFData.txt", accuracy_total)
+np.savetxt("ktc_GNN_dist_DFData.txt", ktc_total)
+np.savetxt("rmse_GNN_dist_DFData.txt", rmse_total)
 
