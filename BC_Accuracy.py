@@ -258,10 +258,10 @@ def BC():
 
     print("num_pairs = ", num_pairs_test)
 
-    chest_vecs = np.array(pd.read_csv("BC_WoL"+"_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))     ##Change the name of the dataset in place of WoL
-    blade_vecs = np.array(pd.read_csv("BC_WoL"+"_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
+    chest_vecs = np.array(pd.read_csv("BC_WoL_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))     ##Change the name of the dataset in place of WoL
+    blade_vecs = np.array(pd.read_csv("BC_WoL_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
 
-    params_bc_ranks = np.array(pd.read_csv("BC_WoL"+"_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
+    params_bc_ranks = np.array(pd.read_csv("BC_WoL_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
 
 
     
