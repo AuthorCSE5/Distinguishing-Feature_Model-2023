@@ -5,7 +5,7 @@ from scipy.special import comb
 import time
 
 
-def create_data(train_set1, train_set2, num_items, flag, t):
+def create_data(train_set1, train_set2, num_items, flag, t, data_name):
 
     print("Creating Data...")
 
@@ -76,6 +76,6 @@ def create_data(train_set1, train_set2, num_items, flag, t):
         data[i,3] = np.sum(final_data_sign == -1)
 
         
-    np.savetxt("BTLData_"+flag+"_"+str(t)+".txt", data)      ##Change the dataset name for other 2 datsets (SF/DF/BTL)
+    np.savetxt(data_name+"Data_"+flag+"_"+str(t)+".txt", data)      ##data_name implies SF/DF/BTL
         
     return data, num_pairs
