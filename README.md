@@ -26,4 +26,8 @@ For GNNRank algorithm find the codes at https://github.com/SherylHYX/GNNRank/tre
 
 8) The scores will be saved as Score_Dist.txt, Score_innerproduct.txt, Score_proximalbaseline.txt, Score_proximaldist.txt, Score_proximalinnerproduct.txt in the original GNNRank/src/ folder(https://github.com/SherylHYX/GNNRank/tree/14c5b3e22ed4dc76639013580359809885b0d0fa). The score text files for synthetic dataset generated from the DF model for number of pairs = 664 and seed value 0,  need to be placed in the GNNRank_Datasets_finer/Synthetic/DF/664/0 folder. The score text files for real dataset WoL and for seed value 0, need to be saved in GNNRank_Datasets_finer/WoL/0 folder.
 
-9) 
+9) The data for Distinguishing Feature(DF) model is generated using pairwise_comparisonsC.py, data for BTL model is generated using Data_BTL_model.py, data for Salient Features(SF) model is generated using SFmodel_Data.py.
+ - The embeddings for the items are generated using gen_embedding.py in both DF and SF model.
+ - The weights in SF models are generated using SF_model_weights.py.
+ - Scores for BTL model are generated using Generate_Score_BTL.py.
+
