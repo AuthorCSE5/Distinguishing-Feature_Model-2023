@@ -73,8 +73,8 @@ def LRPR(embedding_obj, num_items, l , m):
     for i in range(num_items):
         for j in range(i+1, num_items):
             if P[i][j] == 1:
-                P[i][j] = 1 - eps
-                P[j][i] = eps
+               P[i][j] = 1 - eps
+               P[j][i] = eps
             if P[i][j] > 0 and (1-P[i][j]) > 0:
                LP[i][j] = math.log2(P[i][j]) - math.log2(1-(P[i][j]))
                LP[j][i] = math.log2(P[j][i]) - math.log2(1-(P[j][i]))
@@ -265,8 +265,8 @@ def LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, p
     for i in range(num_items):
         for j in range(i+1, num_items):
             if P[i][j] == 1:
-                P[i][j] = 1 - eps
-                P[j][i] = eps
+               P[i][j] = 1 - eps
+               P[j][i] = eps
             if P[i][j] > 0 and (1-P[i][j]) > 0:
                LP[i][j] = math.log2(P[i][j]) - math.log2(1-(P[i][j]))
                LP[j][i] = math.log2(P[j][i]) - math.log2(1-(P[j][i]))
