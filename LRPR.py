@@ -67,14 +67,10 @@ def LRPR(embedding_obj, num_items, l , m):
     #Logit Link
 
     LP = np.zeros((num_items, num_items))
-    eps = 0.001
-    print("eps = ", eps)
+    
 
     for i in range(num_items):
         for j in range(i+1, num_items):
-            if P[i][j] == 1:
-               P[i][j] = 1 - eps
-               P[j][i] = eps
             if P[i][j] > 0 and (1-P[i][j]) > 0:
                LP[i][j] = math.log2(P[i][j]) - math.log2(1-(P[i][j]))
                LP[j][i] = math.log2(P[j][i]) - math.log2(1-(P[j][i]))
@@ -103,7 +99,7 @@ def LRPR(embedding_obj, num_items, l , m):
 
     P2 = np.zeros((num_items,num_items))
 
-    eps = 0.001
+    eps = 0
 
     for i in range(num_items):
         for j in range(num_items):
