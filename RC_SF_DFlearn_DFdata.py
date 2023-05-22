@@ -11,6 +11,7 @@ import os
 import sys
 import pairwise_comparisonsC
 import gen_embedding
+import gen_embedding_rank
 import RC
 import SFmodel_MLE
 import SFmodel_Copeland
