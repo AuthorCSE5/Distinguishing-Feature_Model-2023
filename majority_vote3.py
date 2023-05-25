@@ -29,7 +29,7 @@ def majority_vote_prob(a,b,params,dim,num_items):
 
     for i in range(dim):
         
-        p_val[i] = norm.cdf(mu_a[i] - mu_b[i], 0, 1/math.sqrt(0.01))
+        p_val[i] = 1 - norm.cdf(0, mu_a[i] - mu_b[i], 1/math.sqrt(1))
 
     w_ab = p_val[0]*p_val[1]*p_val[2] + (1 - p_val[0])*p_val[1]*p_val[2] + p_val[0]*(1 - p_val[1])*p_val[2] + p_val[0]*p_val[1]*(1 - p_val[2])
     w_ba = 1 - w_ab
@@ -104,7 +104,7 @@ def majority_vote_ll(params, data, dim, num_items, num_pairs, flag):
 
         for j in range(dim):
             
-            p_val[j] = norm.cdf(mu_a[j] - mu_b[j], 0, 1/math.sqrt(0.01))
+            p_val[j] = 1 - norm.cdf(0, mu_a[j] - mu_b[j], 1/math.sqrt(1))
 
         w_ab = p_val[0]*p_val[1]*p_val[2] + (1 - p_val[0])*p_val[1]*p_val[2] + p_val[0]*(1 - p_val[1])*p_val[2] + p_val[0]*p_val[1]*(1 - p_val[2])
         #w_ba = (1 - p_val[0])*(1 - p_val[1])*(1 - p_val[2]) + p_val[0]*(1 - p_val[1])*(1 - p_val[2]) + (1 - p_val[0])*p_val[1]*(1 - p_val[2]) + (1 - p_val[0])*(1 - p_val[1])*p_val[2]
@@ -126,7 +126,7 @@ def majority_vote_ll(params, data, dim, num_items, num_pairs, flag):
             prob_estimated[a][b] = w_ab
             prob_estimated[b][a] = 1 - w_ab
 
-            
+            #prob_testdata[a][b] = ((int(float(na)))+1)/(int(float(na)) + int(float(nb)) + 2)
             prob_testdata[a][b] = (int(float(na)))/(int(float(na)) + int(float(nb)))
             prob_testdata[b][a] = 1 - prob_testdata[a][b]
 
@@ -213,7 +213,7 @@ def majority_vote_ll_DFData(params, test_set1, test_set2, dim, num_items):
 
         for j in range(dim):
             
-            p_val[j] = norm.cdf(mu_a[j] - mu_b[j], 0, 1/math.sqrt(1))
+            p_val[j] = 1 - norm.cdf(0, mu_a[j] - mu_b[j], 1/math.sqrt(1))
 
         w_ab = p_val[0]*p_val[1]*p_val[2] + (1 - p_val[0])*p_val[1]*p_val[2] + p_val[0]*(1 - p_val[1])*p_val[2] + p_val[0]*p_val[1]*(1 - p_val[2])
         #w_ba = (1 - p_val[0])*(1 - p_val[1])*(1 - p_val[2]) + p_val[0]*(1 - p_val[1])*(1 - p_val[2]) + (1 - p_val[0])*p_val[1]*(1 - p_val[2]) + (1 - p_val[0])*(1 - p_val[1])*p_val[2]
@@ -429,7 +429,7 @@ def obj_fn(params, data):
        
  
 
-def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
+def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, score_DF):
 
     train_set1 = np.copy(embedding_obj.train_data1)
     train_set2 = np.copy(embedding_obj.train_data2)
@@ -438,8 +438,9 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
     #validation_data1 = np.copy(embedding_obj.validation_data1)
     #validation_data2 = np.copy(embedding_obj.validation_data2)
 
-    score_DFdata = np.copy(embedding_obj.score)
+    #score_DFdata = np.copy(embedding_obj.score)
 
+    score_DFdata = np.copy(score_DF)
 
     prob_test = np.copy(embedding_obj.prob_test)
     rank_data12 = np.copy(embedding_obj.rank_data12)
@@ -455,7 +456,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
     print("m = ", m)
    
     
-    data, num_pairs = create_data.create_data(train_set1, train_set2, num_items, 'train', seed, data_name)
+    data, num_pairs = create_data.create_data(train_set1, train_set2, num_items, 'train', seed)
     
 
     #flatten the nd arrays and pass as x0 or args in minimize
@@ -472,24 +473,25 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
     
     print("Hello")
 
-    
+    #f, gradf = obj_fn(params, data2)
 
     n_iter = 100
-    learning_rate = 0.001
+    learning_rate = 0.01
     
     params_gd = grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs)
     weights_bc = params_gd
     
-    
+    #res = minimize(obj_fn, x0 = params, args = data2, method = 'BFGS', jac = True, tol = 1e-6, options = {'maxiter': 10000}) #minimize the negative log likelihood
+    #weights_bc = res.x
     weights_bc = np.reshape(weights_bc, (dim,num_items))
 
-    #valid_data, num_pairs_val = create_data.create_data(validation_data1, validation_data2, num_items, 'train', seed, data_name)
+    #valid_data, num_pairs_val = create_data.create_data(validation_data1, validation_data2, num_items, 'train', seed)
 
     #validation_ll, validation_ll_der = majority_vote_ll_DFData(weights_bc, validation_data1, validation_data2, dim, num_items)
 
-    #print(validation_ll)
+    #print("validation_ll = ", validation_ll)
 
-    #test_data, num_pairs_test = create_data.create_data(test_set1, test_set2, num_items, 'test', seed, data_name)
+    #test_data, num_pairs_test = create_data.create_data(test_set1, test_set2, num_items, 'test', seed)
     
     test_ll, test_ll_der = majority_vote_ll_DFData(weights_bc, test_set1, test_set2, dim, num_items)
     test_acc, ktc, upsets, rmse = get_accuracy_synthetic(weights_bc, dim, num_items, prob_test, score_DFdata, test_set1, test_set2)
@@ -503,7 +505,8 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
     return test_acc, ktc, upsets, rmse
     #return pred_accuracy, ktc
 
-
+#def MV_MLE_Realdata(num_items, params, dim_mv, seed):
+#def MV_MLE_Realdata(train_data1, train_data2, test_data1, test_data2, num_items, prob_data, params, dim_mv, seed):
 def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv, seed, data_name):
     
 
@@ -512,11 +515,19 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     dim = dim_mv
 
-    data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
-    valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed, data_name)
-    test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
+    #data = np.loadtxt("data_majority_vote_train.txt", dtype = float)
+    #data = np.loadtxt("jester_train"+str(seed)+".txt", dtype = float)
+    #data = np.loadtxt("movielenstrain"+str(seed)+".txt", dtype = float)
 
-    
+    #data, num_pairs = create_data.create_data(train_data1, train_data2, num_items)
+
+    #data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
+    #valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed, data_name)
+    #test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
+
+    data = np.loadtxt(data_name+"_modifiedtrain"+str(seed)+".txt", dtype = float)
+    valid_data = np.loadtxt(data_name+"_modifiedvalidation"+str(seed)+".txt", dtype = float)
+    test_data = np.loadtxt(data_name+"_modifiedtest"+str(seed)+".txt", dtype = float)
     
     data = data.astype(int)
     print(data)
@@ -535,26 +546,31 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     print(data.shape[0])
     params = params.flatten()
 
-    
+    #print(num_pairs)
 
     data2 = np.append(data, num_items)
     data2 = np.append(data2, num_pairs)
     data2 = np.append(data2, dim)
     
-    
+    print("Hello")
 
-    
+    #f, gradf = obj_fn(params, data2)
 
-    n_iter = 200
+    n_iter = 100
     print("iter = ", n_iter)
-    learning_rate = 0.0005 #MV
-    #learning_rate = 0.005 #HotS 
+    #learning_rate = 0.005 #MV
+    learning_rate = 0.005 #HotS 
     #learning_rate = 0.005 #WoL
-    #learning_rate = 0.005 #Dota
-    #learning_rate = 0.00005 #jester
+    #learning_rate = 0.0005 #Dota
+    #learning_rate = 0.005 #Dota2
+    #learning_rate = 0.0001 #0.00005 #jester, n_iter = 20
         
     params_gd = grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs)
     weights_bc = params_gd
+    
+    #res = minimize(obj_fn, x0 = params, args = data2, method = 'BFGS', jac = True, tol = 1e-6, options = {'maxiter': 10000, 'disp': True, 'return_all': True}) #minimize the negative log likelihood
+    #res = minimize(obj_fn, x0 = params, args = data2, method = 'Nelder-Mead', tol = 1e-4, options = {'maxiter': 1000})
+    #weights_bc = res.x
     weights_bc = np.reshape(weights_bc, (dim,num_items))
 
     
@@ -565,6 +581,10 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     
 
+    #test_data = np.loadtxt("data_majority_vote_test.txt", dtype = float)
+    #test_data = np.loadtxt("jester_test"+str(seed)+".txt", dtype = float)
+    #test_data = np.loadtxt("movielenstest"+str(seed)+".txt", dtype = float)
+    
     test_data = test_data.astype(int)
     print(test_data)
 
@@ -574,7 +594,17 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     #test_ll, rmse, pred_accuracy = majority_vote_ll(weights_bc, test_data,dim, num_items, num_pairs_test, 'test')
     test_acc, pred_accuracy1, rmse2 = get_accuracy(weights_bc, test_data,dim, num_items, num_pairs_test)
 
+    '''data = data.reshape(num_pairs,4)
+
+    for i in range(num_pairs):
+
+        a = data[i,0]
+        b = data[i,1]
+        na = data[i,2]
+        nb = data[i,3]
     
+        lg = logistic(matchup(a,b))'''
+
     print(test_acc)
     print(test_ll)
     print(rmse2)
@@ -582,5 +612,5 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     print(pred_accuracy1)
     
     return test_ll, pred_accuracy, rmse2
-    
+    #return pred_accuracy, ktc
 
