@@ -8,15 +8,15 @@ from scipy.io import loadmat
 #import matlab.engine
 import OptSpace
 
-def LRPR(embedding_obj, num_items, l , m):
+def LRPR(embedding_obj, num_items, l , m, score_DF):
 
     train_set1 = np.copy(embedding_obj.train_data1)
     train_set2 = np.copy(embedding_obj.train_data2)
     test_set1 = np.copy(embedding_obj.test_data1)
     test_set2 = np.copy(embedding_obj.test_data2)
 
-    score_orig = np.copy(embedding_obj.score)
-
+    #score_orig = np.copy(embedding_obj.score)
+    score_orig = np.copy(score_DF)
 
     prob_test = np.copy(embedding_obj.prob_test)
 
@@ -67,13 +67,19 @@ def LRPR(embedding_obj, num_items, l , m):
     #Logit Link
 
     LP = np.zeros((num_items, num_items))
-    
+    eps = 0.0001
+    #print("eps = ", eps)
 
     for i in range(num_items):
         for j in range(i+1, num_items):
+            if P[i][j] == 1:
+               P[i][j] = 1 - eps
+               P[j][i] = eps
             if P[i][j] > 0 and (1-P[i][j]) > 0:
                LP[i][j] = math.log2(P[i][j]) - math.log2(1-(P[i][j]))
                LP[j][i] = math.log2(P[j][i]) - math.log2(1-(P[j][i]))
+
+    print("LP = ", LP)
 
     #Apply Matrix Completion routine OPTSPACE
 
@@ -99,7 +105,7 @@ def LRPR(embedding_obj, num_items, l , m):
 
     P2 = np.zeros((num_items,num_items))
 
-    eps = 0
+    eps = 0 #0.0001
 
     for i in range(num_items):
         for j in range(num_items):
@@ -201,7 +207,7 @@ def LRPR(embedding_obj, num_items, l , m):
     print("prediction accuracy = ", pred_accuracy)
     print("upsets = ", upsets)
        
-    return pred_accuracy, ktc2, rmse
+    return pred_accuracy, ktc2, upsets, rmse
 
 
 def LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, prob_data):
@@ -246,17 +252,17 @@ def LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, p
         P[i][i] = 0.5
         for j in range(i+1, num_items):
             if t[i][j] + t[j][i] > 0:
-                P[i][j] = (t[i][j] + 1)/(t[i][j] + t[j][i] + 2) #i beats j
+                P[i][j] = (t[i][j] + 0.001)/(t[i][j] + t[j][i] + 0.002) #i beats j
                 P[j][i] = 1 - P[i][j]
         
-                
+    print("P_max = ", np.amax(P))      
 
     #Apply Link Function
     #Logit Link
 
     LP = np.zeros((num_items, num_items))
-    eps = 0.001
-    print("eps = ", eps)
+    eps = 0.0001
+    #print("eps = ", eps)
 
     for i in range(num_items):
         for j in range(i+1, num_items):
@@ -267,13 +273,15 @@ def LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, p
                LP[i][j] = math.log2(P[i][j]) - math.log2(1-(P[i][j]))
                LP[j][i] = math.log2(P[j][i]) - math.log2(1-(P[j][i]))
 
+    print("LP = ", np.amax(LP))
+
     #Apply Matrix Completion routine OPTSPACE
 
     #eng = matlab.engine.start_matlab()
     #eng.edit('OptSpace',nargout=0)
 
     tol = 1e-4
-    niter = 200
+    niter = 100
 
     #LP2 = LP.astype(float)
     
@@ -291,7 +299,7 @@ def LRPR_RealData(train_data1, train_data2, test_data1, test_data2, num_items, p
 
     P2 = np.zeros((num_items,num_items))
 
-    #eps = 0.01
+    eps = 0 #0.001
 
     for i in range(num_items):
         for j in range(num_items):
