@@ -147,15 +147,15 @@ def initialize_params_uniform(num_items, dim_mv, t):
 
 #val_loop = [0, 1, 2, 3 ,4 ,5 ,6 ,7 ,8 ,9]
 
-val_loop_RC = [0,3]
 
-for t in range(2):#val_loop_RC
+
+for t in range(10):
     
     print(t)
 
     #random.seed(t)
     
-    embeddings = gen_embedding.generate_embedding(num_items, dim, np.sqrt(1/1),t)
+    embeddings = gen_embedding.generate_embedding(num_items, dim, np.sqrt(1),t)
     #embeddings2 = gen_embedding.generate_embedding_new(num_items, dim, 0.001, t)
     embeddings2 = gen_embedding_rank.generate_embedding_new(num_items, dim, 0.001, t)
     #print("embeddings2 = ",embeddings2.shape)
@@ -227,67 +227,36 @@ for t in range(2):#val_loop_RC
     #m_vals = [664]
 
     
-    #for m in m_vals:
-    for l in l_vals:
+    for m in m_vals:
+    #for l in l_vals:
 
-        print("l = ", l)
+        print("m = ", m)
     
         embedding_obj = pairwise_comparisonsC.embedding(embeddings2, num_items, l, m, t)
 
         
         
-        #accuracy_RC, ktc_RC, upset_RC, rmse_RC = RC.RankCentrality(embedding_obj, num_items, l, m, score)
-        #accuracy_LRPR, ktc_LRPR, upset_LRPR, rmse_LRPR = LRPR.LRPR(embedding_obj, num_items, l , m, score)
-        #accuracy_SF, ktc_SF, upset_SF, rmse_SF = SFmodel_Copeland.SF_Copeland_DFdata(embedding_obj, num_items, l, m, dim, score)
-        #accuracy_DFlearn, ktc_DFlearn, upset_DFlearn, cycles, cycle_fraction, rmse_DFlearn, learned_embeddings = DFlearn.Ranking(embedding_obj, num_items, l, m, dim, dim2, prob_data, score)
+        accuracy_RC, ktc_RC, upset_RC, rmse_RC = RC.RankCentrality(embedding_obj, num_items, l, m, score)
+        accuracy_LRPR, ktc_LRPR, upset_LRPR, rmse_LRPR = LRPR.LRPR(embedding_obj, num_items, l , m, score)
+        accuracy_SF, ktc_SF, upset_SF, rmse_SF = SFmodel_Copeland.SF_Copeland_DFdata(embedding_obj, num_items, l, m, dim, score)
+        accuracy_DFlearn, ktc_DFlearn, upset_DFlearn, cycles, cycle_fraction, rmse_DFlearn, learned_embeddings = DFlearn.Ranking(embedding_obj, num_items, l, m, dim, dim2, prob_data, score)
         #np.savetxt("embeddings_learned"+str(t)+"_"+str(m)+".txt", learned_embeddings)
         
-        '''
-        clustering = SpectralClustering(n_clusters=3, random_state=0).fit(learned_embeddings)
-        #clustering.labels_
-        labels = clustering.fit_predict(learned_embeddings)
-        np.savetxt("labels learned data"+str(t)+"_"+str(m)+".txt", labels)
-        print("labels = ", labels)
-        fig = plt.figure(figsize = (10, 7))
-        #ax = plt.axes(projection ="3d")
-        #ax.scatter3D(learned_embeddings[:, 0], learned_embeddings[:, 1], learned_embeddings[:, 2], s = 10, linewidth=0, c=labels, cmap='flag')
-        #plt.show()
-        '''
         
         #params = initialize_params_normal(num_items, dim_mv, 1/math.sqrt(0.001), t)
-        #params = initialize_params_uniform(num_items, dim_mv, t)
-        #accuracy_MV, ktc_MV, upset_MV, rmse_MV = majority_vote3.MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim_mv, t, score)
+        params = initialize_params_uniform(num_items, dim_mv, t)
+        accuracy_MV, ktc_MV, upset_MV, rmse_MV = majority_vote3.MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim_mv, t, score)
         
-        '''
-        accuracy_SF, ktc_SF, rmse_SF = SFmodel_Copeland.SF_Copeland_DFdata(embedding_obj, num_items, l, m, dim)
-        #accuracy_DFlearn, ktc_DFlearn, upset_DFlearn, cycles, cycle_fraction, rmse_DFlearn = DFlearn.Ranking(embedding_obj, num_items, l, m, dim, dim2) #, idx)
-        accuracy_LRPR, ktc_LRPR, rmse_LRPR = LRPR.LRPR(embedding_obj, num_items, l , m)
+        
 
-        #params = initialize_params_normal(num_items, dim_mv, 1/math.sqrt(1), t)
-        #accuracy_MV, ktc_MV, upsets_MV, rmse_MV = majority_vote3.MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim_mv, t)
-        data_BC = blade_chest_Synthetic_DFData.create_data(embedding_obj, num_items, l, m, t)'''
-        #accuracy_LRPR, ktc_LRPR, rmse_LRPR = LRPR.LRPR(embedding_obj, num_items, l , m)
-        #accuracy_DFlearn, ktc_DFlearn, upset_DFlearn, cycles, cycle_fraction, rmse_DFlearn = DFlearn.Ranking(embedding_obj, num_items, l, m, dim, dim2)
-
-        #data_BC = blade_chest_Synthetic_DFData.create_data(embedding_obj, num_items, l, m, t)
+        data_BC = blade_chest_Synthetic_DFData.create_data(embedding_obj, num_items, l, m, t) #Blade Chest format data generation
         #score_DFdata = np.copy(embedding_obj.score)
         
-        pred_accuracy_BC, rmse_BC, ktc_BC, upset_BC = BC_Accuracy.BC_Synthetic(l, t, score)
+        #pred_accuracy_BC, rmse_BC, ktc_BC, upset_BC = BC_Accuracy.BC_Synthetic(m, t, score)  #After running the Blade-Chest algorithm separately the accuracy is evaluated
 
-        #GNNRank_Synthetic.DFdata(embedding_obj, num_items, l, m, t) #GNN format data generation
+        GNNRank_Synthetic.DFdata(embedding_obj, num_items, l, m, t) #GNN format data generation
 
-        accuracy_BC_total[count_iter][count_m] = pred_accuracy_BC
-        ktc_BC_total[count_iter][count_m] = ktc_BC
-        rmse_BC_total[count_iter][count_m] = rmse_BC
         
-
-        '''
-        accuracy_MV_total[count_iter][count_m] = accuracy_MV
-        rmse_MV_total[count_iter][count_m] = rmse_MV
-        ktc_MV_total[count_iter][count_m] = ktc_MV
-        '''
-
-        '''
         cycles_total[count_iter][count_m] = cycles
         cycle_fraction_total[count_iter][count_m] = cycle_fraction
         
@@ -318,28 +287,14 @@ for t in range(2):#val_loop_RC
         rmse_SF_total[count_iter][count_m] = rmse_SF
         rmse_LRPR_total[count_iter][count_m] = rmse_LRPR
         #rmse_BC_total[count_iter][count_m] = rmse_BC
-        '''
-        
-        '''
-        accuracy_BC_total[count_iter][count_m] = pred_accuracy_BC
-        ktc_BC_total[count_iter][count_m] = ktc_BC
-        upset_BC_total[count_iter][count_m] = upset_BC
-        rmse_BC_total[count_iter][count_m] = rmse_BC
-        '''
+              
         count_m = count_m + 1
     
     count_iter = count_iter + 1
 
-#accuracy_reshape = accuracy_no_of_pairs.reshape(accuracy_no_of_pairs.shape[0], -1)
 
-#ktc_vals_reshape = ktc_vals.reshape(ktc_vals.shape[0], -1)
 
-np.savetxt("accuracy_BC_DFData.txt", accuracy_BC_total)
-np.savetxt("ktc_vals_BC_DFData.txt",ktc_BC_total)
-#np.savetxt("upset_BC_DFData.txt", upset_BC_total)
-np.savetxt("rmse_BC_DFData.txt", rmse_BC_total)
 
-'''
 np.savetxt("accuracy_RC_DFData.txt", accuracy_RC_total)
 np.savetxt("accuracy_SF_DFData.txt", accuracy_SF_total)
 np.savetxt("accuracy_DF_DFData.txt", accuracy_DFlearn_total)
@@ -358,12 +313,7 @@ np.savetxt("ktc_vals_LRPR_DFData.txt", ktc_LRPR_total)
 np.savetxt("ktc_vals_MV_DFData.txt", ktc_MV_total)
 #np.savetxt("ktc_vals_BC_DFData.txt",ktc_BC_total)
 
-np.savetxt("upset_RC_DFData.txt", upset_RC_total)
-np.savetxt("upset_SF_DFData.txt", upset_SF_total)
-np.savetxt("upset _DF_DFData.txt", upset_DFlearn_total)
-np.savetxt("upset_LRPR_DFData.txt", upset_LRPR_total)
-np.savetxt("upset_MV_DFData.txt", upset_MV_total)
-#np.savetxt("upset_BC_DFData.txt", upset_BC_total)
+
 
 np.savetxt("rmse_RC_DFData.txt", rmse_RC_total)
 np.savetxt("rmse_DFlearn_DFData.txt", rmse_DFlearn_total)
@@ -371,7 +321,7 @@ np.savetxt("rmse_MV_DFData.txt", rmse_MV_total)
 np.savetxt("rmse_SF_DFData.txt", rmse_SF_total)
 np.savetxt("rmse_LRPR_DFData.txt", rmse_LRPR_total)
 #np.savetxt("rmse_BC_DFData.txt", rmse_BC_total)
-'''
+
 
 '''acc_RC = np.loadtxt("accuracy_RC_DFData.txt")
 acc_DF = np.loadtxt("accuracy_DF_DFData.txt")
@@ -385,11 +335,4 @@ acc_RC_err = stats.sem(acc_RC, axis = 0)
 acc_SF_err = stats.sem(acc_SF, axis = 0)
 acc_DF_err = stats.sem(acc_DF, axis = 0)
 
-plt.errorbar(no_of_pairs, acc_RC_mean, yerr = acc_RC_err)
-plt.errorbar(no_of_pairs, acc_SF_mean, yerr = acc_SF_err)
-plt.errorbar(no_of_pairs, acc_DF_mean, yerr = acc_DF_err)
-plt.legend(["RankCentrality", "SF_MLE", "DFLearn"])#, loc = "upper left")
-plt.title("DF Model Data", size = 20)
-plt.xlabel("No. of training pairs", size = 20)
-plt.ylabel("Pairwise Prediction Accuracy", size = 20)
-plt.show()'''
+'''
