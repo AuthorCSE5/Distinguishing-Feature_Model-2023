@@ -2,7 +2,7 @@ import numpy as np
 from numpy import random
 import math
 from scipy import stats
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 from sklearn.cluster import SpectralClustering
 
 import pickle
@@ -32,19 +32,19 @@ dim = 3
 
 total_pairs = int(comb(num_items,2))
 
-m = int(num_items * math.log2(num_items))
+m2 = int(num_items * math.log2(num_items))
 
-l2 = int(math.log2(num_items))
+l = int(math.log2(num_items))
 
 
-#r = int(total_pairs/m2)
+r = int(total_pairs/m2)
 
 m_vals = []
 l_vals = []
-#no_of_pairs = np.zeros(r-1)
+no_of_pairs = np.zeros(r-1)
 no_of_comparisons = np.zeros(6)
 
-'''
+
 for i in range(1,r):
     m3 = i*m2
     m_vals.append(m3)
@@ -55,6 +55,7 @@ no_of_pairs = m_vals
 
 print(m_vals)
 print(no_of_pairs)
+
 '''
 r = 7
 
@@ -64,6 +65,7 @@ for i in range(1,7,1):
 
 no_of_comparisons = l_vals
 print(no_of_comparisons)
+'''
 
 accuracy_no_of_pairs = np.zeros(((10,r-1)))
 ktc_vals = np.zeros(((10,r-1)))
