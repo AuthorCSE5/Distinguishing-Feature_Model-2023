@@ -64,7 +64,7 @@ ktc_vals = np.zeros(((10,r-1)))
 ktc2_vals = np.zeros(((10,r-1)))
 
 
-dim2 = 50
+dim2 = 10
 c = 0.00009 #l2 regularization parameter
 
 
