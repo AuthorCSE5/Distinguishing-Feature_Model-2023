@@ -212,7 +212,7 @@ def get_accuracy_Synthetic(params, data, prob_test, dim, num_items, num_pairs, c
 
 
 
-def BC(data_name, num_items):
+def BC(data_name, num_items, seed):
 
     
    
@@ -229,7 +229,7 @@ def BC(data_name, num_items):
     #num_items = 4381  ##change the number of items a/c to the dataset
     
 
-    test_indices = np.loadtxt('test_indices_BC_WoL.txt', dtype = int) ##Change the name of the dataset in place of WoL (this text file is saved from the blade chest software to know the dataset indices used for test data)
+    test_indices = np.loadtxt("test_indices_BC_"+data_name+"_"+str(seed)+".txt", dtype = int) ##Change the name of the dataset in place of WoL (this text file is saved from the blade chest software to know the dataset indices used for test data)
     
     data = data[num_items+1:,0:]
     test = (data[:,0] == 'FOR_TESTING')
@@ -258,10 +258,10 @@ def BC(data_name, num_items):
 
     print("num_pairs = ", num_pairs_test)
 
-    chest_vecs = np.array(pd.read_csv("BC_WoL_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))     ##Change the name of the dataset in place of WoL
-    blade_vecs = np.array(pd.read_csv("BC_WoL_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
+    chest_vecs = np.array(pd.read_csv("BC_"+data_name+"_"+str(seed)+".txt", header = None, skiprows = 5, nrows = num_items, delimiter = ' '))     ##Change the name of the dataset in place of WoL
+    blade_vecs = np.array(pd.read_csv("BC_"+data_name+"_"+str(seed)+".txt", header = None, skiprows = 5+num_items+1, nrows = num_items, delimiter = ' '))
 
-    params_bc_ranks = np.array(pd.read_csv("BC_WoL_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
+    params_bc_ranks = np.array(pd.read_csv("BC_"+data_name+"_"+str(seed)+".txt", header = None, skiprows = 5+(2*num_items)+2, nrows = 1, delimiter = ' '))
 
 
     
