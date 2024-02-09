@@ -45,7 +45,7 @@ def grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs
     eps = learning_rate * 0.1
 
     change = 0
-    momentum = 0.6       #0.8  #0.8 (BTL - 664, 1328, 1992) #0.6 = SF(2656, 3320, 3984), 0.9 = SF(others) #0.5 = real data (except sushiA)
+    momentum = 0.6       #0.8 (BTL - 664, 1328, 1992) #0.6 = SF(2656, 3320, 3984), 0.9 = SF(others) #0.5 = real data
 
     for i in range(n_iter):
 
