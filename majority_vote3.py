@@ -580,7 +580,6 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     #learning_rate = 0.001 #A17
     #learning_rate = 0.0001 #A9
     #learning_rate = 0.00001 #CM - used
-    #learning_rate = 0.0001 #sf07 - not used
     #learning_rate = 0.00005 #sf07 - used
     #learning_rate = 0.00005 #DN, DW
         
