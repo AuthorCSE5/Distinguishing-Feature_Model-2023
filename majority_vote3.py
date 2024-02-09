@@ -574,7 +574,7 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
     #learning_rate = 0.0005 #Dota
     #learning_rate = 0.005 #Dota2
     #learning_rate = 0.0001 #0.00005 #jester, n_iter = 20
-    #learning_rate = 0.005 #Tennis
+    learning_rate = 0.005 #Tennis
     #learning_rate = 0.001 #A48, SF
     #learning_rate = 0.0005 #A5
     #learning_rate = 0.001 #A17
