@@ -34,7 +34,7 @@ def majority_vote_prob(a,b,params,dim,num_items):
     w_ab = p_val[0]*p_val[1]*p_val[2] + (1 - p_val[0])*p_val[1]*p_val[2] + p_val[0]*(1 - p_val[1])*p_val[2] + p_val[0]*p_val[1]*(1 - p_val[2])
     w_ba = 1 - w_ab
     #print("w_ab = ", w_ab )
-    #print("math.log2(w_ab) = ", math.log2(w_ab))
+    #print("math.log(w_ab) = ", math.log(w_ab))
 
     return w_ab
 
@@ -43,6 +43,9 @@ def grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs
     params2 = params.reshape(dim,num_items)  #generate an initial point, here the parameters generated are passed
 
     eps = learning_rate * 0.1
+
+    change = 0
+    momentum = 0.6       #0.8  #0.8 (BTL - 664, 1328, 1992) #0.6 = SF(2656, 3320, 3984), 0.9 = SF(others) #0.5 = real data (except sushiA)
 
     for i in range(n_iter):
 
@@ -54,11 +57,16 @@ def grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs
 
         print("train_ll = ", f, "i = ", i)#, "gradient = ", gradf)#, "gradf = ", gradf, "parameters = ", params)
 
+        new_change = learning_rate * gradf + momentum * change
+
         #update the parameters
 
-        params = params + learning_rate * gradf
+        #params = params + learning_rate * gradf
+        params = params + new_change
 
         #learning_rate = (1 - eps) * learning_rate
+
+        change = new_change
 
     return params        
 
@@ -142,17 +150,17 @@ def majority_vote_ll(params, data, dim, num_items, num_pairs, flag):
 
         
             
-        ll = ll + int(float(na)) * math.log2(w_ab) + int(float(nb)) * math.log2(w_ba)
+        ll = ll + int(float(na)) * math.log(w_ab) + int(float(nb)) * math.log(w_ba)
 
         #for j in range(dim):
 
-        fn_der[0][a] = fn_der[0][a] + (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(mu_a[0] - mu_b[0])*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
-        fn_der[1][a] = fn_der[1][a] + (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(mu_a[1] - mu_b[1])*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
-        fn_der[2][a] = fn_der[2][a] + (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(mu_a[2] - mu_b[2])*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
+        fn_der[0][a] = fn_der[0][a] + (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(0, mu_a[0] - mu_b[0], 1)*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
+        fn_der[1][a] = fn_der[1][a] + (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(0, mu_a[1] - mu_b[1], 1)*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
+        fn_der[2][a] = fn_der[2][a] + (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(0, mu_a[2] - mu_b[2], 1)*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
         
-        fn_der[0][b] = fn_der[0][b] - (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(mu_a[0] - mu_b[0])*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
-        fn_der[1][b] = fn_der[1][b] - (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(mu_a[1] - mu_b[1])*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
-        fn_der[2][b] = fn_der[2][b] - (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(mu_a[2] - mu_b[2])*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
+        fn_der[0][b] = fn_der[0][b] - (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(0, mu_a[0] - mu_b[0], 1)*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
+        fn_der[1][b] = fn_der[1][b] - (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(0, mu_a[1] - mu_b[1], 1)*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
+        fn_der[2][b] = fn_der[2][b] - (int(float(na))/w_ab - int(float(nb))/(1 - w_ab)) * norm.pdf(0, mu_a[2] - mu_b[2], 1)*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
         
     fn_der = fn_der.flatten()
 
@@ -230,19 +238,19 @@ def majority_vote_ll_DFData(params, test_set1, test_set2, dim, num_items):
 
         
             
-        ll = ll + na * math.log2(w_ab) + nb * math.log2(w_ba)
+        ll = ll + na * math.log(w_ab) + nb * math.log(w_ba)
       
         
 
         #for j in range(dim):
 
-        fn_der[0][a] = fn_der[0][a] + (na/w_ab - nb/(1 - w_ab)) * norm.pdf(mu_a[0] - mu_b[0])*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
-        fn_der[1][a] = fn_der[1][a] + (na/w_ab - nb/(1 - w_ab)) * norm.pdf(mu_a[1] - mu_b[1])*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
-        fn_der[2][a] = fn_der[2][a] + (na/w_ab - nb/(1 - w_ab)) * norm.pdf(mu_a[2] - mu_b[2])*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
+        fn_der[0][a] = fn_der[0][a] + (na/w_ab - nb/(1 - w_ab)) * norm.pdf(0, mu_a[0] - mu_b[0], 1)*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
+        fn_der[1][a] = fn_der[1][a] + (na/w_ab - nb/(1 - w_ab)) * norm.pdf(0, mu_a[1] - mu_b[1], 1)*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
+        fn_der[2][a] = fn_der[2][a] + (na/w_ab - nb/(1 - w_ab)) * norm.pdf(0, mu_a[2] - mu_b[2], 1)*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
         
-        fn_der[0][b] = fn_der[0][b] - (na/w_ab - nb/(1 - w_ab)) * norm.pdf(mu_a[0] - mu_b[0])*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
-        fn_der[1][b] = fn_der[1][b] - (na/w_ab - nb/(1 - w_ab)) * norm.pdf(mu_a[1] - mu_b[1])*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
-        fn_der[2][b] = fn_der[2][b] - (na/w_ab - nb/(1 - w_ab)) * norm.pdf(mu_a[2] - mu_b[2])*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
+        fn_der[0][b] = fn_der[0][b] - (na/w_ab - nb/(1 - w_ab)) * norm.pdf(0, mu_a[0] - mu_b[0], 1)*(p_val[1] + p_val[2] - 2*p_val[1]*p_val[2])
+        fn_der[1][b] = fn_der[1][b] - (na/w_ab - nb/(1 - w_ab)) * norm.pdf(0, mu_a[1] - mu_b[1], 1)*(p_val[0] + p_val[2] - 2*p_val[0]*p_val[2])
+        fn_der[2][b] = fn_der[2][b] - (na/w_ab - nb/(1 - w_ab)) * norm.pdf(0, mu_a[2] - mu_b[2], 1)*(p_val[0] + p_val[1] - 2*p_val[0]*p_val[1])
         
     fn_der = fn_der.flatten()
     
@@ -429,7 +437,8 @@ def obj_fn(params, data):
        
  
 
-def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, score_DF):
+#def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, score_DF, data_name):
+def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, data_name):
 
     train_set1 = np.copy(embedding_obj.train_data1)
     train_set2 = np.copy(embedding_obj.train_data2)
@@ -438,9 +447,9 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, score_DF):
     #validation_data1 = np.copy(embedding_obj.validation_data1)
     #validation_data2 = np.copy(embedding_obj.validation_data2)
 
-    #score_DFdata = np.copy(embedding_obj.score)
+    score_DFdata = np.copy(embedding_obj.score)
 
-    score_DFdata = np.copy(score_DF)
+    #score_DFdata = np.copy(score_DF)
 
     prob_test = np.copy(embedding_obj.prob_test)
     rank_data12 = np.copy(embedding_obj.rank_data12)
@@ -456,7 +465,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, score_DF):
     print("m = ", m)
    
     
-    data, num_pairs = create_data.create_data(train_set1, train_set2, num_items, 'train', seed)
+    data, num_pairs = create_data.create_data(train_set1, train_set2, num_items, 'train', seed, data_name)
     
 
     #flatten the nd arrays and pass as x0 or args in minimize
@@ -476,7 +485,7 @@ def MV_MLE_DFdata(embedding_obj, params, num_items, l, m, dim, seed, score_DF):
     #f, gradf = obj_fn(params, data2)
 
     n_iter = 100
-    learning_rate = 0.01
+    learning_rate = 0.005 #0.005 = 3984 (DF) #0.01 #1992 onwards #0.01 = btl 664 #1328 -> 0.005
     
     params_gd = grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs)
     weights_bc = params_gd
@@ -521,13 +530,13 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     #data, num_pairs = create_data.create_data(train_data1, train_data2, num_items)
 
-    #data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
-    #valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed, data_name)
-    #test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
+    data, train_pairs = create_data3.create_data(train_data, num_items, 'train', seed, data_name)
+    valid_data, valid_pairs = create_data3.create_data(valid_data, num_items, 'validation', seed, data_name)
+    test_data, test_pairs = create_data3.create_data(test_data, num_items, 'test', seed, data_name)
 
-    data = np.loadtxt(data_name+"_modifiedtrain"+str(seed)+".txt", dtype = float)
-    valid_data = np.loadtxt(data_name+"_modifiedvalidation"+str(seed)+".txt", dtype = float)
-    test_data = np.loadtxt(data_name+"_modifiedtest"+str(seed)+".txt", dtype = float)
+    #data = np.loadtxt(data_name+"_modifiedtrain"+str(seed)+".txt", dtype = float)
+    #valid_data = np.loadtxt(data_name+"_modifiedvalidation"+str(seed)+".txt", dtype = float)
+    #test_data = np.loadtxt(data_name+"_modifiedtest"+str(seed)+".txt", dtype = float)
     
     data = data.astype(int)
     print(data)
@@ -556,14 +565,24 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     #f, gradf = obj_fn(params, data2)
 
-    n_iter = 100
+    n_iter = 200
     print("iter = ", n_iter)
     #learning_rate = 0.005 #MV
-    learning_rate = 0.005 #HotS 
+    #learning_rate = 0.005 #HotS 
     #learning_rate = 0.005 #WoL
+    #learning_rate = 0.005 #sushiA
     #learning_rate = 0.0005 #Dota
     #learning_rate = 0.005 #Dota2
     #learning_rate = 0.0001 #0.00005 #jester, n_iter = 20
+    #learning_rate = 0.005 #Tennis
+    #learning_rate = 0.001 #A48, SF
+    #learning_rate = 0.0005 #A5
+    #learning_rate = 0.001 #A17
+    #learning_rate = 0.0001 #A9
+    #learning_rate = 0.00001 #CM - used
+    #learning_rate = 0.0001 #sf07 - not used
+    #learning_rate = 0.00005 #sf07 - used
+    #learning_rate = 0.00005 #DN, DW
         
     params_gd = grad_descent(params, data2, n_iter, learning_rate, dim, num_items, num_pairs)
     weights_bc = params_gd
@@ -575,9 +594,9 @@ def MV_MLE_Realdata(train_data, valid_data, test_data, num_items, params, dim_mv
 
     
 
-    validation_ll, validation_ll_der = majority_vote_ll(weights_bc, valid_data,dim, num_items, valid_pairs, 'validation')
+    #validation_ll, validation_ll_der = majority_vote_ll(weights_bc, valid_data,dim, num_items, valid_pairs, 'validation')
 
-    print("validation_ll = ", validation_ll)
+    #print("validation_ll = ", validation_ll)
 
     
 
